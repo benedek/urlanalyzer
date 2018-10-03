@@ -4,11 +4,18 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [        
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Batch",
+            "program": "${workspaceFolder}/functions/lib/batchAnalysis.js"
+        },
         {
             "type": "node",
             "request": "launch",
             "name": "Express site",
-            "program": "${workspaceFolder}/lib/urlAnalyzerApp.js"
+            "program": "${workspaceFolder}/functions/localserve.js"
         },
         {
             "type": "node",

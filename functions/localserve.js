@@ -1,3 +1,2 @@
-const uapp = require('./lib/urlAnalyzerApp');
-
-uapp.urlAnalyzerApp.listen(3000);
+const xx = require('./lib/analyze.f');
+xx.listen(3000);

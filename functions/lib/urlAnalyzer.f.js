@@ -4,7 +4,7 @@ const reporting = require('./processResponses');
 
 const urlAnalyzerApp = express();
 
-urlAnalyzerApp.get("/analyzeAndReport", async (req, res, next) => {
+urlAnalyzerApp.get("/", async (req, res, next) => {
     const targetUrl = req.query['targetUrl'];
     if (targetUrl == undefined)
         res.status(400)
@@ -17,4 +17,4 @@ urlAnalyzerApp.get("/analyzeAndReport", async (req, res, next) => {
         .send(markup);
 });
 
-exports.urlAnalyzerApp = urlAnalyzerApp;
+module.exports = urlAnalyzerApp;
