@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const URL = require('url');
 
 const analyzeUrl = async (targetUrl) => {
+    console.info("Starting analysis on", targetUrl);
     const browser = await puppeteer.launch({
         headless: true,
         defaultViewport: null,
