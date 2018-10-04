@@ -5,7 +5,7 @@ const got = require('got');
  * @param {Array<string>} urls 
  */
 const makeRequests = async (urls) => {
-    const ENDPOINT = process.env['P_ANALYZER_EP'];    
+    const ENDPOINT = process.env['P_ANALYZER_EP'];
     var allRequests = urls
         .map(url => {
             console.info('Making request to ', url);
@@ -13,7 +13,12 @@ const makeRequests = async (urls) => {
             console.info('EP: ', ep);
             return got(ep);
         });
-    var allResponses = await Promise.all(allRequests);
+    try {
+        var allResponses = await Promise.all(allRequests);
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
     var merged = allResponses
         .filter(r => r.statusCode == 200)
         .map(r => r.body)
@@ -36,7 +41,7 @@ const flatten = (prev, current) => {
  * @param {Array<object>} responses 
  */
 const mergeResponses = (prev, current) => {
-    if(current['requestUrl'] in prev)
+    if (current['requestUrl'] in prev)
         return prev;
     prev[current['requestUrl']] = current;
     return prev;
