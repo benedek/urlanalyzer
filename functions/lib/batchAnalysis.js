@@ -12,7 +12,7 @@ const makeRequests = async (urls) => {
                 console.info('Making request to ', url);
                 const ep = `${ENDPOINT}?targetUrl=${encodeURIComponent(url)}`;
                 console.info('EP: ', ep);
-                return got(ep);
+                return got(ep).catch((e) => { console.error('Error while making request', ep); });
             });
         var allResponses = await Promise.all(allRequests);
         var merged = allResponses
