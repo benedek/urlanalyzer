@@ -6,29 +6,29 @@ const got = require('got');
  */
 const makeRequests = async (urls) => {
     const ENDPOINT = process.env['P_ANALYZER_EP'];
-    var allRequests = urls
-        .map(url => {
-            console.info('Making request to ', url);
-            const ep = `${ENDPOINT}?targetUrl=${encodeURIComponent(url)}`;
-            console.info('EP: ', ep);
-            return got(ep);
-        });
     try {
+        var allRequests = urls
+            .map(url => {
+                console.info('Making request to ', url);
+                const ep = `${ENDPOINT}?targetUrl=${encodeURIComponent(url)}`;
+                console.info('EP: ', ep);
+                return got(ep);
+            });
         var allResponses = await Promise.all(allRequests);
+        var merged = allResponses
+            .filter(r => r.statusCode == 200)
+            .map(r => r.body)
+            // .map(r => { console.log(r + '\n\n\n'); return r; })
+            .map(b => JSON.parse(b))
+            .reduce(flatten, [])
+            .reduce(mergeResponses, {})
+            ;
+        const reportArray = Object.values(merged);
+        return reportArray;
     } catch (e) {
         console.error(e);
         return [];
     }
-    var merged = allResponses
-        .filter(r => r.statusCode == 200)
-        .map(r => r.body)
-        // .map(r => { console.log(r + '\n\n\n'); return r; })
-        .map(b => JSON.parse(b))
-        .reduce(flatten, [])
-        .reduce(mergeResponses, {})
-        ;
-    const reportArray = Object.values(merged);
-    return reportArray;
 }
 
 
